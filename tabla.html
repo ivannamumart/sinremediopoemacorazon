@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sin Remedio — Base de datos de poemas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tinta: #1a1a1a;
+      --tinta-tenue: #555;
+      --tinta-muy-tenue: #888;
+      --blanco: #fafaf7;
+      --linea: #e5e2d8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Fraunces', Georgia, serif;
+      background: var(--blanco);
+      color: var(--tinta);
+      padding: 3rem 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--linea);
+      padding-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 400;
+      font-style: italic;
+      font-variation-settings: "opsz" 72, "SOFT" 50;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitulo {
+      font-size: 1.05rem;
+      color: var(--tinta-tenue);
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .meta {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--tinta-muy-tenue);
+      letter-spacing: 0.04em;
+    }
+
+    .intro {
+      margin: 2rem 0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--tinta-tenue);
+      max-width: 56rem;
+    }
+
+    .intro p { margin-bottom: 0.8rem; }
+
+    .formula {
+      font-family: 'JetBrains Mono', monospace;
+      background: #f3f0e8;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.5rem 0 3rem;
+    }
+
+    th, td {
+      padding: 0.7rem 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid var(--linea);
+      vertical-align: top;
+    }
+
+    th {
+      font-weight: 500;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tinta-muy-tenue);
+      border-bottom: 2px solid var(--tinta);
+      font-style: normal;
+    }
+
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    tr:hover td { background: #faf8f0; }
+
+    .titulo-poema {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .autor {
+      color: var(--tinta-muy-tenue);
+      font-size: 0.82rem;
+      font-style: italic;
+    }
+
+    .cap { color: var(--tinta-muy-tenue); font-size: 0.85rem; }
+
+    .color-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    .color-swatch {
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--tinta-muy-tenue);
+    }
+
+    .bpm {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .emocion {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    section.marco {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: #f3f0e8;
+      border-radius: 6px;
+    }
+
+    section.marco h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    section.marco p {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--tinta-tenue);
+      margin-bottom: 0.7rem;
+    }
+
+    section.marco ul {
+      margin-left: 1.5rem;
+      font-size: 0.92rem;
+      color: var(--tinta-tenue);
+    }
+
+    section.marco li { margin-bottom: 0.4rem; }
+
+    .biblio {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--linea);
+    }
+
+    .biblio h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .biblio ol {
+      padding-left: 1.3rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--tinta-tenue);
+    }
+
+    .biblio li { margin-bottom: 0.6rem; }
+
+    .biblio a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: #ccc;
+    }
+
+    .biblio a:hover { text-decoration-color: var(--tinta); }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--linea);
+      font-size: 0.8rem;
+      color: var(--tinta-muy-tenue);
+      text-align: center;
+      font-style: italic;
+    }
+
+    @media print {
+      body { padding: 1.5cm; max-width: none; }
+      tr:hover td { background: transparent; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sin Remedio — Base de datos de poemas</h1>
+  <p class="subtitulo">Antonio Caballero (1984) · 15 poemas datificados</p>
+  <p class="meta">Materialización de datos como experiencia sensible</p>
+</header>
+
+<div class="intro">
+  <p>Esta tabla sistematiza los 15 poemas y fragmentos de prosa poética más representativos de la novela <em>Sin Remedio</em> de Antonio Caballero, siguiendo tres marcos teóricos verificables:</p>
+  <ul>
+    <li><strong>Categorización emocional:</strong> Cowen &amp; Keltner (2017), 27 categorías de emoción.</li>
+    <li><strong>Asignación cromática:</strong> Jonauskaite et al. (2020), asociaciones color-emoción empíricas en 30 países.</li>
+    <li><strong>Pulso cardíaco:</strong> Kreibig (2010) + American Heart Association. Fórmula: <code class="formula">BPM = max(55, min(95, 100 − versos × 1.1))</code>. A mayor concentración (menos versos), mayor pulso.</li>
+  </ul>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th class="num">#</th>
+      <th>Poema</th>
+      <th>Cap.</th>
+      <th class="num">Versos</th>
+      <th>Emoción (Cowen &amp; Keltner)</th>
+      <th>Color (Jonauskaite)</th>
+      <th class="num">BPM</th>
+    </tr>
+  </thead>
+  <tbody id="filas"></tbody>
+</table>
+
+<section class="marco">
+  <h2>Operación expresiva</h2>
+  <p>Los datos se traducen en una experiencia sensible —no en una gráfica convencional— según tres operaciones:</p>
+  <ul>
+    <li><strong>Pulso visual:</strong> el texto del poema palpita con opacidad y escala al <em>BPM</em> asignado. Un poema breve (3 versos → 95 bpm) palpita como un corazón en alarma; un poema extenso (43 versos → 55 bpm) palpita como un corazón en meditación profunda.</li>
+    <li><strong>Pulso sonoro:</strong> un latido sintetizado con Web Audio API (lub-dub) suena al mismo BPM, haciendo que la lectura ocurra dentro del cuerpo del poema.</li>
+    <li><strong>Atmósfera cromática:</strong> el fondo del paisaje se tiñe del color asignado a la emoción, bañando toda la escena en el estado afectivo del poema seleccionado.</li>
+  </ul>
+</section>
+
+<section class="biblio">
+  <h2>Bibliografía</h2>
+  <ol>
+    <li>Caballero, A. (1984). <em>Sin Remedio</em>. Bogotá: Editorial Oveja Negra.</li>
+    <li>Cowen, A. S., &amp; Keltner, D. (2017). Self-report captures 27 distinct categories of emotion bridged by continuous gradients. <em>Proceedings of the National Academy of Sciences</em>, 114(38), E7900–E7909. <a href="https://doi.org/10.1073/pnas.1702247114">https://doi.org/10.1073/pnas.1702247114</a></li>
+    <li>Jonauskaite, D., Abu-Akel, A., Dael, N., Oberfeld, D., Abdel-Khalek, A. M., Al-Rasheed, A. S., Antonietti, J. P., Bogushevskaya, V., Chamseddine, A., Chkonia, E., Corona, V., Fonseca-Pedrero, E., Griber, Y. A., Grimshaw, G., Hasan, A. A., Havelka, J., Hirnstein, M., Karlsson, B. S. A., Laurent, E., … Mohr, C. (2020). Universal patterns in color-emotion associations are further shaped by linguistic and geographic proximity. <em>Psychological Science</em>, 31(10), 1245–1260. <a href="https://doi.org/10.1177/0956797620948810">https://doi.org/10.1177/0956797620948810</a></li>
+    <li>Kreibig, S. D. (2010). Autonomic nervous system activity in emotion: A review. <em>Biological Psychology</em>, 84(3), 394–421. <a href="https://doi.org/10.1016/j.biopsycho.2010.03.010">https://doi.org/10.1016/j.biopsycho.2010.03.010</a></li>
+    <li>American Heart Association. <em>Target Heart Rates Chart</em>. <a href="https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates">https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates</a></li>
+  </ol>
+</section>
+
+<footer>Documento auxiliar — Entregable creativo S8, Universidad de los Andes</footer>
+
+<script src="poemas.js"></script>
+<script>
+  // Construye las filas de la tabla desde el mismo poemas.js
+  const tbody = document.getElementById("filas");
+  const ids = Object.keys(POEMAS);
+  ids.forEach(id => {
+    const p = POEMAS[id];
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="num">${p.orden}</td>
+      <td>
+        <div class="titulo-poema">${p.titulo}${p.subtitulo ? ' <span class="autor">— '+p.subtitulo+'</span>' : ''}</div>
+        <div class="autor">${p.autor}</div>
+      </td>
+      <td class="cap">${p.capitulo}</td>
+      <td class="num">${p.numeroVersos}</td>
+      <td class="emocion">${p.emocion} <span class="hex">(${p.emocionEN})</span></td>
+      <td>
+        <div class="color-cell">
+          <span class="color-swatch" style="background:${p.color}"></span>
+          <div>
+            <div>${p.nombreColor}</div>
+            <div class="hex">${p.color}</div>
+          </div>
+        </div>
+      </td>
+      <td class="num bpm">${p.bpm}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+</script>
+
+</body>
+</html>

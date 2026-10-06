@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sin Remedio — Poemas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="fondo"></div>
+  <div id="tinte"></div>
+
+  <main id="paisaje"></main>
+
+  <!-- Overlay del poema -->
+  <div id="poema-overlay" class="oculto">
+    <div class="poema-contenido">
+      <div class="poema-cabecera">
+        <h2 class="poema-titulo"></h2>
+        <p class="poema-autor"></p>
+        <p class="poema-datos"></p>
+      </div>
+      <div class="poema-texto-wrap">
+        <div class="poema-texto"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="indicador-scroll"><span>desliza →</span></div>
+
+  <button id="btn-sobre" aria-label="Sobre el proyecto">sobre el proyecto</button>
+
+  <!-- =================================================================
+       MODAL "SOBRE EL PROYECTO"
+       Incluye: autoría, descripción (texto afirmativo, 200+ palabras),
+       cómo leer la pieza, cómo leer los datos, tabla completa,
+       URL del boceto, marco teórico y bibliografía.
+       ================================================================= -->
+  <div id="sobre-overlay" class="oculto">
+    <button class="cerrar" aria-label="Cerrar">×</button>
+
+    <div class="sobre-contenido">
+
+      <h2>Sin Remedio — Palpitación de un paisaje poético</h2>
+
+      <div class="autoria">
+        <span class="nombre">Ivanna Muñoz</span>
+        Maestría en Humanidades Digitales — Universidad de los Andes<br>
+        Narrativas Digitales · Entregable Creativo S8
+      </div>
+
+      <div class="url-boceto">
+        <strong>Dirección del boceto publicado</strong>
+        <span class="url-valor">https://ivannamumart.github.io/sinremediopoemacorazon/</span>
+      </div>
+
+      <h3>Qué hace la pieza</h3>
+      <p>Este proyecto trabaja con quince poemas y fragmentos de prosa poética de la novela <em>Sin Remedio</em> (1984) de Antonio Caballero. La selección reúne la voz del protagonista Ignacio Escobar &mdash;un poeta bogotano aquejado de inercia creativa&mdash; junto con los versos del viejo Ricardito Patiño y las letras de los boleros y canciones populares que atraviesan la novela. Las ilustraciones que acompañan los poemas fueron pintadas en acuarela a mano: esa capa material y analógica dialoga con la capa digital del boceto.</p>
+
+      <h3>Qué hacemos con los datos</h3>
+      <p>En lugar de visualizar los datos de los poemas como gráficos convencionales (barras, torta, dispersión), traducimos cada poema a tres cualidades sensibles: un color atmosférico, un pulso cardíaco visual y un latido audible. La operación reemplaza la lectura visual de datos por una lectura corporal del poema: el visitante entra al poema desde su color y desde su ritmo cardíaco, el mismo pulso cardíaco que respondería a esa emoción si el poema la provocara. La pieza propone así una ecuación: leer un poema equivale a sentir su cuerpo rítmico.</p>
+
+      <h3>De dónde vienen los marcos teóricos</h3>
+
+      <p><strong>Para la emoción</strong> retomo las <em>27 categorías de emoción</em> identificadas por Cowen y Keltner (2017) en un estudio empírico con 2.185 participantes publicado en <em>PNAS</em>. Trabajo con este marco en lugar de modelos clásicos como la Rueda de Plutchik (1980) porque reconoce categorías específicas que resultan útiles para la lectura literaria: <em>nostalgia</em>, <em>apreciación estética</em>, <em>deseo sexual</em>, <em>horror</em>, <em>encantamiento</em>, <em>deseo intenso</em>, <em>compasión</em>. Estas categorías permiten mapear con precisión poemas que un modelo de seis u ocho emociones básicas aplana en etiquetas genéricas. De este marco tomo el repertorio de 27 emociones y asigno a cada poema la emoción dominante tras una lectura cercana.</p>
+
+      <p><strong>Para el color</strong> retomo las asociaciones empíricas color-emoción documentadas por Jonauskaite y colaboradoras (2020) en un estudio transcultural con 4.598 personas de 30 países, publicado en <em>Psychological Science</em>. El estudio confirmó patrones universales ajustados por proximidad lingüística y geográfica: amarillo para la alegría, azul para la tristeza, rojo para la ira, verde para el miedo. De este marco tomo los mapeos empíricos entre emoción y color, lo cual evita una asignación cromática arbitraria. El amarillo de "Sol" y el azul profundo del "Cuaderno de hacer cuentas" responden entonces a datos interculturales, cada acuarela encuentra su color en la literatura y en la evidencia.</p>
+
+      <p><strong>Para el pulso cardíaco</strong> trabajo con la revisión canónica de Kreibig (2010) sobre firmas fisiológicas de la emoción, publicada en <em>Biological Psychology</em>, y con los rangos de ritmo cardíaco en reposo publicados por la American Heart Association (60–100 bpm en adultos). De estos marcos tomo dos cosas: el rango humano real del pulso cardíaco (que acoto entre 55 y 95 bpm, dentro de los valores fisiológicos reales) y la idea de que las emociones intensas elevan la frecuencia cardíaca mientras los estados contemplativos la descienden. La fórmula asignada:</p>
+
+      <p style="text-align: center; font-family: 'Courier New', monospace; font-size: 0.95rem; padding: 0.8rem; background: #f3f0e8; border-radius: 4px;">
+        BPM = max(55, min(95, 100 − versos × 1.1))
+      </p>
+
+      <p>La hipótesis: el número de versos funciona como medida de <em>concentración emocional</em>. Los poemas breves destilan la emoción en pocas palabras y laten con urgencia; los poemas extensos respiran a través de muchos versos y laten en reposo meditativo. "Desde antes de nacer" (3 versos) late a 95 bpm, como un epitafio apretado. "Cuaderno de hacer cuentas" (43 versos) late a 55 bpm, como un corazón en meditación profunda.</p>
+
+      <h3>Cómo recorrer la pieza</h3>
+      <ul>
+        <li>Desliza por el paisaje horizontal con la rueda del mouse, el trackpad o las flechas del teclado.</li>
+        <li>Pasa el cursor sobre cada ilustración para activar su poema.</li>
+        <li>Observa cómo el fondo adquiere el color de la emoción, cómo el texto palpita al ritmo asignado, y escucha el latido sintetizado.</li>
+        <li>Al retirar el cursor, la pieza regresa a su estado contemplativo.</li>
+      </ul>
+
+      <h3>Tabla de los 15 poemas</h3>
+      <p>La tabla reúne los quince registros con sus siete campos: orden de aparición, título y autor dentro de la ficción, capítulo del libro, cantidad de versos, emoción asignada según Cowen &amp; Keltner, color correspondiente según Jonauskaite et al., y pulso cardíaco calculado. La muestra ofrece diversidad de longitudes (desde 3 hasta 43 versos), de autores dentro de la ficción (Escobar, Ricardito, canciones populares), de capítulos del libro (del I al XIV) y de emociones (desde la apreciación estética hasta la ira épica).</p>
+
+      <div class="tabla-wrap">
+        <table id="tabla-dinamica">
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th>Poema</th>
+              <th>Cap.</th>
+              <th class="num">Versos</th>
+              <th>Emoción</th>
+              <th>Color</th>
+              <th class="num">BPM</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3>Materiales complementarios</h3>
+      <ul>
+        <li><strong>Repositorio del proyecto:</strong> <a href="https://github.com/ivannamumart/sinremediopoemacorazon" target="_blank" rel="noopener">github.com/ivannamumart/sinremediopoemacorazon</a></li>
+        <li><strong>Base de datos JSON:</strong> <a href="https://ivannamumart.github.io/sinremediopoemacorazon/datos-poemas.json" target="_blank" rel="noopener">datos-poemas.json</a></li>
+        <li><strong>Tabla en formato imprimible:</strong> <a href="https://ivannamumart.github.io/sinremediopoemacorazon/tabla.html" target="_blank" rel="noopener">tabla.html</a></li>
+      </ul>
+
+      <!-- ========== BIBLIOGRAFÍA ========== -->
+      <h3>Bibliografía</h3>
+      <ol class="biblio">
+        <li>Caballero, A. (1984). <em>Sin Remedio</em>. Bogotá: Editorial Oveja Negra.</li>
+        <li>Cowen, A. S., &amp; Keltner, D. (2017). Self-report captures 27 distinct categories of emotion bridged by continuous gradients. <em>Proceedings of the National Academy of Sciences</em>, 114(38), E7900–E7909. <a href="https://doi.org/10.1073/pnas.1702247114" target="_blank" rel="noopener">https://doi.org/10.1073/pnas.1702247114</a></li>
+        <li>Jonauskaite, D., Abu-Akel, A., Dael, N., Oberfeld, D., Abdel-Khalek, A. M., Al-Rasheed, A. S., Antonietti, J. P., Bogushevskaya, V., Chamseddine, A., Chkonia, E., Corona, V., Fonseca-Pedrero, E., Griber, Y. A., Grimshaw, G., Hasan, A. A., Havelka, J., Hirnstein, M., Karlsson, B. S. A., Laurent, E., &hellip; Mohr, C. (2020). Universal patterns in color-emotion associations are further shaped by linguistic and geographic proximity. <em>Psychological Science</em>, 31(10), 1245–1260. <a href="https://doi.org/10.1177/0956797620948810" target="_blank" rel="noopener">https://doi.org/10.1177/0956797620948810</a></li>
+        <li>Kreibig, S. D. (2010). Autonomic nervous system activity in emotion: A review. <em>Biological Psychology</em>, 84(3), 394–421. <a href="https://doi.org/10.1016/j.biopsycho.2010.03.010" target="_blank" rel="noopener">https://doi.org/10.1016/j.biopsycho.2010.03.010</a></li>
+        <li>American Heart Association. <em>Target Heart Rates Chart</em>. <a href="https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates" target="_blank" rel="noopener">https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates</a></li>
+      </ol>
+
+    </div>
+  </div>
+
+  <script src="poemas.js"></script>
+  <script src="sketch.js"></script>
+</body>
+</html>
